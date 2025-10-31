@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Strato Quantum — Visão Completa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1b33;
+      --text:#eaf2ff;
+      --muted:#9bb3d1;
+      --accent:#7c6bf8;
+      --accent2:#20d8ff;
+      --ok:#10b981;
+      --warn:#f59e0b;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:radial-gradient(1200px 800px at 20% -10%, rgba(124,107,248,.25) 0%, rgba(32,216,255,0) 60%), var(--bg); color:var(--text); font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial; line-height:1.55}
+    a{color:var(--accent2);text-decoration:none}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    header{position:sticky;top:0;background:linear-gradient(180deg, rgba(11,18,32,.9) 0%, rgba(11,18,32,.6) 100%);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.06);z-index:10}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.5px}
+    .logo-hex{width:28px;height:28px;border-radius:8px; background: conic-gradient(from 0deg, var(--accent), var(--accent2), var(--accent), var(--accent2)); box-shadow:0 0 24px rgba(124,107,248,.5)}
+    .nav-links a{margin-left:14px;opacity:.9}
+    .btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--accent),var(--accent2)); padding:10px 16px;border-radius:12px;color:#0a1020;font-weight:700;box-shadow:0 10px 24px rgba(32,216,255,.18);}
+    .hero{padding:80px 0 40px; display:grid; grid-template-columns: 1.1fr .9fr; gap:28px; align-items:center}
+    .hero h1{font-size:44px;line-height:1.1;margin:0 0 12px}
+    .hero p{color:var(--muted);font-size:18px;margin:0 0 24px}
+    .hero .stats{display:flex;gap:16px;flex-wrap:wrap}
+    .stat{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08); padding:14px 16px;border-radius:14px; min-width:160px}
+    .stat b{font-size:20px}
+    .canvas{position:relative;aspect-ratio:1.1/1;border-radius:20px; background: radial-gradient(400px 400px at 70% 20%, rgba(32,216,255,.2), transparent 70%), linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08); overflow:hidden}
+    .hex{position:absolute;width:140px;height:160px;border-radius:16px; transform:rotate(30deg); border:1px solid rgba(124,107,248,.6);}
+    .hex.h1{top:10%;left:12%;}
+    .hex.h2{top:55%;left:60%;height:180px;width:160px;border-color:rgba(32,216,255,.6)}
+    .hex.h3{top:30%;left:78%;height:120px;width:110px;border-color:rgba(255,255,255,.25)}
+    section{padding:48px 0;border-top:1px solid rgba(255,255,255,.06)}
+    h2{font-size:28px;margin:0 0 12px}
+    .muted{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08);padding:18px;border-radius:16px}
+    .kvs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .kv{padding:14px;border-radius:14px;background:linear-gradient(180deg, rgba(16,185,129,.12), rgba(16,185,129,.04));border:1px solid rgba(16,185,129,.2)}
+    .kv.warn{background:linear-gradient(180deg, rgba(245,158,11,.12), rgba(245,158,11,.04));border-color:rgba(245,158,11,.25)}
+    .roadmap{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+    .step{padding:16px;border-radius:16px;border:1px dashed rgba(255,255,255,.18);background:rgba(255,255,255,.02)}
+    footer{padding:40px 0;color:var(--muted);text-align:center}
+    @media (max-width:950px){
+      .hero{grid-template-columns:1fr}
+      .grid,.kvs,.roadmap{grid-template-columns:1fr}
+    }
+    .tag{display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(124,107,248,.18);border:1px solid rgba(124,107,248,.4);font-size:12px;margin-right:6px}
+    .sep{height:1px;background:linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent); margin:22px 0}
+    .list{margin:0;padding-left:18px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">
+          <div class="logo-hex"></div>
+          Strato Quantum
+        </div>
+        <div class="nav-links">
+          <a href="#visao">Visão</a>
+          <a href="#camadas">Camadas</a>
+          <a href="#valor">Valor</a>
+          <a href="#roadmap">Roadmap</a>
+          <a class="btn" href="#contato">Começar</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <h1>Plataforma de Enxame de Agentes Corporativos</h1>
+        <p>O Strato Quantum integra <b>infraestrutura em nuvem</b>, <b>agentes de IA</b> e <b>mapeamento de processos</b> para criar uma camada inteligente que apoia decisões e operações em empresas médias e grandes.</p>
+        <div class="stats">
+          <div class="stat"><b>3 camadas</b><div class="muted">Tamanduá • Garuba • Tucano</div></div>
+          <div class="stat"><b>+20 casos</b><div class="muted">FinOps, AIOps, RH, Financeiro…</div></div>
+          <div class="stat"><b>+30% ROI</b><div class="muted">redução de custos e retrabalho</div></div>
+        </div>
+      </div>
+      <div class="canvas">
+        <div class="hex h1"></div>
+        <div class="hex h2"></div>
+        <div class="hex h3"></div>
+      </div>
+    </section>
+
+    <section id="visao">
+      <h2>Visão Geral</h2>
+      <p class="muted">Uma “simbiose” entre sistemas e pessoas: agentes observam métricas, entendem contexto e executam ações orquestradas. O foco é <b>valor de negócio</b> com governança e segurança.</p>
+      <div class="sep"></div>
+      <div class="kvs">
+        <div class="kv"><b>Observabilidade</b><div class="muted">coleta + correlação + insights</div></div>
+        <div class="kv"><b>Automação</b><div class="muted">playbooks, CI/CD, fluxos</div></div>
+        <div class="kv"><b>RAG + Memória</b><div class="muted">contexto corporativo</div></div>
+        <div class="kv warn"><b>Governança</b><div class="muted">acessos, auditoria, custo</div></div>
+      </div>
+    </section>
+
+    <section id="camadas">
+      <h2>Camadas Arquiteturais</h2>
+      <p class="muted">As três camadas trabalham de forma modular e desacoplada.</p>
+      <div class="grid">
+        <div class="card">
+          <span class="tag">Infra • Kubernetes • Terraform</span>
+          <h3>Tamanduá (Infraestrutura)</h3>
+          <ul class="list">
+            <li>AWS EKS, RDS, observabilidade (Prometheus/Grafana)</li>
+            <li>Terraform, Ansible, GitHub Actions (CI/CD)</li>
+            <li>Segurança e custo (VPC, IAM, FinOps)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="tag">Agentes • Orquestração</span>
+          <h3>Garuba (Agentes de IA)</h3>
+          <ul class="list">
+            <li>Frameworks: CrewAI, Dify, LangFlow, LangGraph</li>
+            <li>Workflows com memória e ferramentas (RAG, APIs)</li>
+            <li>Verticalização: FinBeeX, Atlas‑NR, AIOps One</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="tag">Processos • UX • Painéis</span>
+          <h3>Tucano (Processos & Produto)</h3>
+          <ul class="list">
+            <li>Mapeamento BPMN / OKRs / SLAs</li>
+            <li>Strato Panel (dashboard e apps)</li>
+            <li>Métricas de negócio e conformidade</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="valor">
+      <h2>Proposta de Valor</h2>
+      <div class="grid">
+        <div class="card"><b>FinOps & ROI</b><p class="muted">Cortes de custo com visibilidade ponta‑a‑ponta e recomendações executáveis.</p></div>
+        <div class="card"><b>AIOps</b><p class="muted">Detecção proativa de incidentes, redução de MTTR e automação de runbooks.</p></div>
+        <div class="card"><b>Produtividade</b><p class="muted">Agentes copilotos para equipes (Dev, Dados, RH, Financeiro).</p></div>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <h2>Roadmap</h2>
+      <div class="roadmap">
+        <div class="step"><b>Fase 1</b><br/>MVP Infra + Observabilidade<br/><span class="muted">EKS, RDS, CI/CD</span></div>
+        <div class="step"><b>Fase 2</b><br/>Agentes Verticais<br/><span class="muted">FinBeeX, Atlas‑NR</span></div>
+        <div class="step"><b>Fase 3</b><br/>Strato Panel + Apps<br/><span class="muted">dashboards e UX</span></div>
+        <div class="step"><b>Fase 4</b><br/>Escala & Compliance<br/><span class="muted">auditoria, custo, SSO</span></div>
+      </div>
+    </section>
+
+    <section id="contato">
+      <h2>Comece um piloto</h2>
+      <p class="muted">Agende um diagnóstico rápido (2h) para mapear ganhos iniciais de FinOps/AIOps e um backlog de oportunidades.</p>
+      <a class="btn" href="#!">Agendar diagnóstico</a>
+    </section>
+  </main>
+
+  <footer>
+    © 2025 Strato Quantum — Plataforma de Enxame de Agentes Corporativos
+  </footer>
+
+  <script>
+    // Simple entrance animations inspired by animejs demos
+    anime({
+      targets: '.hero h1, .hero p, .hero .stats .stat',
+      translateY: [24, 0],
+      opacity: [0, 1],
+      easing: 'easeOutExpo',
+      delay: anime.stagger(120, {start: 200})
+    });
+    anime({
+      targets: '.hex',
+      translateY: [20, 0],
+      opacity:[0, .9],
+      rotate: '+=15deg',
+      easing: 'spring(1, 80, 10, 0)',
+      delay: anime.stagger(180, {start: 400})
+    });
+    anime({
+      targets: 'section h2',
+      opacity:[0,1],
+      translateX:[-20,0],
+      easing:'easeOutExpo',
+      delay: anime.stagger(150, {start:800})
+    });
+  </script>
+</body>
+</html>
